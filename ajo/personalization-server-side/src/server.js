@@ -109,7 +109,14 @@ httpsApp.get("/", async (req, res) => {
         ? {
             FPID: [createIdentityPayload(FPID)],
           }
-        : {},
+        : {
+            Email: [
+              {
+                id: "varkalra@adobe.com",
+                primary: true,
+              },
+            ],
+          },
       aepEdgeCookies,
       [demoSurfaceUri, demoSurfaceUri.concat(demoSurfaceName)]
     );
@@ -122,7 +129,9 @@ httpsApp.get("/", async (req, res) => {
     sendDisplayEvent(
       aepEdgeClient,
       req,
-      [personalizationExperience].filter((experience) => Object.keys(experience) > 0),
+      [personalizationExperience].filter(
+        (experience) => Object.keys(experience) > 0
+      ),
       aepEdgeCookies
     );
 

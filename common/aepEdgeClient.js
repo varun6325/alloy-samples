@@ -68,6 +68,7 @@ function checkForErrors(response) {
     (responseBody && !Array.isArray(responseBody.handle) && statusCode !== 202)
   ) {
     const bodyToLog = responseBody ? JSON.stringify(responseBody, null, 2) : "";
+    console.log("response body : ", responseBody);
     const messageSuffix = bodyToLog
       ? `response body:\n${bodyToLog}`
       : `no response body.`;
@@ -154,7 +155,6 @@ function createAepEdgeClient(
   debugValidationSession = undefined,
   edgeBasePath = EXP_EDGE_BASE_PATH_PROD
 ) {
-
   function edgeRequest(endpoint, requestBody, requestHeaders = {}) {
     const requestId = uuidv4();
 
@@ -163,9 +163,9 @@ function createAepEdgeClient(
 
     if (edgeDomain === "server.adobedc.net") {
       if (aepEdgeCluster) {
-        domain = `${aepEdgeCluster}.${edgeDomain}`
+        domain = `${aepEdgeCluster}.${edgeDomain}`;
       }
-      region = ""
+      region = "";
     }
 
     const requestUrl = [
@@ -186,7 +186,9 @@ function createAepEdgeClient(
     if (debugValidationSession) {
       headers[HEADER_AEP_VALIDATION_TOKEN] = debugValidationSession;
     }
-
+    // console.log("requestUrl : ", requestUrl);
+    // console.log("requestHeaders : ", JSON.stringify(headers));
+    // console.log("requestBody : ", JSON.stringify(requestBody));
     return fetch(requestUrl, {
       headers,
       body: JSON.stringify(requestBody),
@@ -195,6 +197,8 @@ function createAepEdgeClient(
       .then(convertHeadersToSimpleJson)
       .then(checkForErrors)
       .then((response) => {
+        // console.log("response : ", JSON.stringify(response));
+
         aepEdgeCluster = extractEdgeCluster(response, aepEdgeCluster);
         return response;
       })
@@ -211,7 +215,7 @@ function createAepEdgeClient(
   }
 
   function collect(requestBody, requestHeaders = {}) {
-   return edgeRequest("collect", requestBody, requestHeaders);
+    return edgeRequest("collect", requestBody, requestHeaders);
   }
 
   function getPropositions({
