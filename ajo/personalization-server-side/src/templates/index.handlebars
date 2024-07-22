@@ -45,7 +45,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Web Site</a>
+          <a class="navbar-brand" href="#">&#127869; Club</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -53,21 +53,29 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
           </ul>
+
+
+           <ul class="nav navbar-nav" style="float: right;">
+            <li><a href="/login">Logout</a></li>
+          </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </nav>
     <div class="container">
       <div class="page-header">
-        <h1>Hello World!</h1>
+        <h1>{{userName}}, Welcome to &#127869; Club!</h1>
       </div>
-      <img
-        id="ajo-decision"
-        src="{{heroImageName}}"
-        width="640"
-        alt="ajo decision"
-        class="img-responsive img-rounded ajo-decision"
-      />
-      <p id="paragraph-text-1" class="lead">
+      <div>
+          <img
+            id="ajo-decision"
+            src="{{heroImageName}}"
+            width="640"
+            alt="ajo decision"
+            class="img-responsive img-rounded ajo-decision center"
+          />
+      </div>
+      {{!-- <p id="paragraph-text-1" class="lead">
         This is a sample web page. It leverages the
         <a
           href="https://experienceleague.adobe.com/docs/experience-platform/edge/home.html"
@@ -77,18 +85,11 @@
           href="https://experienceleague.adobe.com/docs/experience-platform/edge-network-server-api/overview.html"
         >APIs</a>
         to render personalization content.
-      </p>
-      <p id="paragraph-text-2">
-        Vestibulum cursus tristique risus, volutpat lobortis quam fermentum
-        dapibus. Sed lacus augue, vulputate a placerat vel, fringilla sed velit.
-        In aliquet odio ut efficitur gravida. Vivamus volutpat hendrerit nisl ut
-        rutrum. Donec id nunc dolor. Pellentesque lectus mi, consequat sit amet
-        elit vitae, laoreet euismod est. Cras placerat ex ligula, nec malesuada
-        dolor feugiat ut. Ut condimentum ante turpis, a iaculis massa cursus
-        vitae. Sed sed felis quam. Sed hendrerit, nisl vel viverra viverra, nisi
-        mauris laoreet tortor, ut blandit lectus lacus ut tellus. Integer ante
-        sapien, tincidunt ut erat id, volutpat finibus urna. Aliquam rhoncus
-        tellus vitae facilisis varius.
+      </p> --}}
+      <p id="paragraph-text-2" class="lead">
+        Join us for a delightful midday break at our Lunch Club, exclusively for employees. Whether you're looking to connect with colleagues, share a meal, or simply unwind, our club offers a welcoming space to relax and recharge.
+        Enjoy a variety of delicious meals and engaging conversations, making every lunch break a highlight of your day. Open to all employees, our Lunch Club fosters a sense of community and camaraderie, bringing together diverse teams to build stronger workplace relationships.
+        <br><br>Come, eat, and connect with us!
       </p>
 
       <div id="some-buttons">
@@ -99,6 +100,7 @@
             data-content="{{content}}"
             type="button"
             class="btn btn-primary"
+            style="float:inline-end; margin: 10px;"
           >{{text}}</button>
         {{/each}}
       </div>

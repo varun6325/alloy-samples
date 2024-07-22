@@ -60,6 +60,8 @@ const httpsApp = express();
 // Setup cookie parsing middleware and static file serving from the /public directory
 httpsApp.use(cookieParser());
 httpsApp.use(express.static(path.resolve(__dirname, "..", "public")));
+httpsApp.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 function prepareTemplateVariables(
   handles,
@@ -69,6 +71,9 @@ function prepareTemplateVariables(
   const templateVariables = {
     heroImageName: "demo-marketing-decision1-default.png",
     buttonActions: [],
+    userName: "User Name",
+    product: "",
+    loyaltyTier: "",
     ...defaultTemplateVariables,
   };
 
@@ -77,16 +82,49 @@ function prepareTemplateVariables(
     const {
       heroImageName = "demo-marketing-decision1-default.png",
       buttonActions = [],
+      userName = "User Name",
+      product = "",
+      loyaltyTier = "",
     } = content;
     templateVariables.heroImageName = heroImageName;
     templateVariables.buttonActions = buttonActions;
+    templateVariables.userName = userName;
+    templateVariables.product = product;
+    templateVariables.loyaltyTier = loyaltyTier;
   }
+  if(templateVariables.loyaltyTier === "diamond") {
+    templateVariables.heroImageName = "https://s7ap1.scene7.com/is/image/varuncloudready/LunchClub?&$productImage=varuncloudready/burger&$name=BigWhop&$price=%2420%20only&$description=Delicious%20juicy%20burger&$showDiscount=0&$discount=20%25%5Cline%20OFF&$showDiscount=0";
+  }
+  else if(templateVariables.loyaltyTier === "platinum") {
+    templateVariables.heroImageName = "https://s7ap1.scene7.com/is/image/varuncloudready/LunchClub?&$productImage=varuncloudready/pizza&$name=Veggie%20Pizza&$price=%2410%20only&$description=Delicious%20Veg%20pizza&$showDiscount=1&$discount=30%25%5Cline%20OFF";
+  }
+  else if(templateVariables.loyaltyTier === "gold") {
+    templateVariables.heroImageName = "https://s7ap1.scene7.com/is/image/varuncloudready/LunchClub?&$productImage=varuncloudready/fries&$name=Peri%20Peri%20Fries&$price=%2410%20only&$description=Crispy%20fries&$showDiscount=0&$discount=5%25%5Cline%20OFF";
+  }
+  console.log("templateVariables", templateVariables);
 
   return templateVariables;
 }
 
+let email = '';
+let password = '';
+
+httpsApp.get("/login", async (req, res) => {
+  let template = loadHandlebarsTemplate("login");
+  let templateVariables = {
+    pageTitle: "Lunch Club login page",
+  };
+  sendResponse({
+    req,
+    res,
+    template,
+    templateVariables,
+  });
+});
+
 // Setup the root route Express app request handler for GET requests
-httpsApp.get("/", async (req, res) => {
+httpsApp.post("/home", async (req, res) => {
+  email = req.body.username;
   const aepEdgeClient = createAepEdgeClient(
     EDGE_CONFIG_ID_WITH_ANALYTICS,
     getAepEdgeClusterCookie(ORGANIZATION_ID, req),
@@ -97,7 +135,7 @@ httpsApp.get("/", async (req, res) => {
 
   let template = loadHandlebarsTemplate("index");
   let templateVariables = {
-    pageTitle: "AJO server-side sample",
+    pageTitle: "Lunch Club Home Page",
   };
 
   try {
@@ -112,7 +150,7 @@ httpsApp.get("/", async (req, res) => {
         : {
             Email: [
               {
-                id: "apogupta@adobe.com",
+                id: email,
                 primary: true,
               },
             ],

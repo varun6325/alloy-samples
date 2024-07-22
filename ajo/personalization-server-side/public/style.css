@@ -9,3 +9,22 @@ img.ajo-decision {
 #some-buttons {
   margin: 20px 0;
 }
+
+form > div {
+  text-align: center;
+}
+
+div.page-header {
+  text-align: center;
+}
+
+.lead {
+  text-align: center;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
